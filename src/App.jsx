@@ -1,34 +1,22 @@
 import "./App.css";
-import { useEffect, useState } from "react";
-
-async function getData() {
-  const res = await fetch(
-    "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
-  );
-  return res.json();
-}
+import FilterBar from "./components/FilterBar";
+import PokemonCard from "./components/pokemonCard";
+import SortDropdown from "./components/SortDropdown";
 
 function App() {
-  const [data, setData] = useState(undefined);
-
-  useEffect(() => {
-    getData().then(setData);
-  }, []);
-
   return (
     <main>
       <div>
-        <header>Test me</header>
-        <h2>Pokémon List:</h2>
-        {data ? (
-          data.results.map((pokemon, index) => (
-            <p key={index}>
-              {pokemon.name} {pokemon.url}
-            </p>
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
+        <h1>Pokémon List:</h1>
+      </div>
+      <div>
+        <PokemonCard />
+      </div>
+      <div>
+        <FilterBar />
+      </div>
+      <div>
+        <SortDropdown />
       </div>
     </main>
   );
