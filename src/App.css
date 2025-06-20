@@ -28,6 +28,8 @@
   background-color: white;
 }
 
+/* Dropdown bar */
+
 .dropbtn {
   background-color: #000000;
   color: white;
@@ -48,28 +50,29 @@
 }
 
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 100px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .dropdown-content a {
+  position: center;
   color: black;
   padding: 12px 16px; 
   text-decoration: none;
   display: block;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-content a:hover {background-color: #e4f6fe;}
 
 .dropdown:hover .dropdown-content {display: block;}
 
-.dropdown:hover .dropbtn {background-color: #2d2c2c;}
+.dropdown:hover .dropbtn {background-color: #1f1f1f;}
+
+/* Pokemon card styling */
 
 .pokemon-card {
+  position: relative;
   display: flex;
   flex-direction: column; 
   align-items: center;
@@ -77,7 +80,7 @@
   padding: 2rem;
   margin: 1rem;
   border: 1px solid black;
-  background-image: linear-gradient(rgb(238, 230, 187), rgb(166, 166, 166));
+  /* background-image: linear-gradient(rgb(255, 255, 255), rgb(224, 215, 215)); */
   border-radius: 8px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -94,7 +97,7 @@
 }
 
 
-.type-fire {
+/* .type-fire {
   background-image: linear-gradient(red, yellow);
 }
 
@@ -123,12 +126,47 @@
 }
 
 .type-fairy {
-  background-image: linear-gradient(rgb(240, 161, 234), rgb(178, 175, 175))
+  background-image: linear-gradient(rgb(240, 161, 234), rgb(212, 199, 130))
+}
+
+.type-psychic {
+  background-image: linear-gradient(rgb(115, 2, 115),white)
+}
+
+.type-fighting {
+  background-image: linear-gradient(orange, white)
+}
+
+.type-rock {
+  background-image: linear-gradient(rgb(133, 133, 133), rgb(196, 195, 192))
+}
+
+.type-dragon {
+  background-image: linear-gradient(rgb(238, 108, 130), rgb(167, 207, 242))
+}
+
+.type-dark {
+  background-image: linear-gradient(rgb(240, 161, 234), rgb(212, 199, 130))
+} */
+
+.collected-symbol {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: gold;
+  color: black;
+  padding: 4px 6px;
+  border-radius: 100%;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .pokemon-card:hover {
   transform: scale(1.05);
 }
+
+
+
 
 
 
