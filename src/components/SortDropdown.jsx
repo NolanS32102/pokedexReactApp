@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-function SortDropdown({ selectedType, setSelectedType }) {
+function SortDropdown({
+  selectedType,
+  setSelectedType,
+  showOnlySelectedCards,
+  setShowOnlySelectedCards,
+}) {
   const types = [
     "Fighting",
     "Poison",
@@ -22,10 +27,16 @@ function SortDropdown({ selectedType, setSelectedType }) {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="dropdown">
       <button className="dropbtn" onClick={() => setIsOpen(!isOpen)}>
-        Filter: {selectedType || "none"}
+        Filter:{" "}
+        {showOnlySelectedCards
+          ? "starred"
+          : selectedType
+            ? selectedType
+            : "none"}
       </button>
       {isOpen && (
         <div className="dropdown-content">
@@ -33,26 +44,35 @@ function SortDropdown({ selectedType, setSelectedType }) {
             href="#"
             onClick={() => {
               setSelectedType("");
+              setShowOnlySelectedCards(false);
               setIsOpen(false);
             }}
           >
             <b>Clear Filter</b>
           </a>
-          <a href="#">Starred ⭐️</a>
-          {types.map((type) => {
-            return (
-              <a
-                href="#"
-                key={type}
-                onClick={() => {
-                  setSelectedType(type.toLowerCase());
-                  setIsOpen(false);
-                }}
-              >
-                {type}
-              </a>
-            );
-          })}
+          <a
+            href="#"
+            onClick={() => {
+              setSelectedType("");
+              setShowOnlySelectedCards(true);
+              setIsOpen(false);
+            }}
+          >
+            Starred ⭐️
+          </a>
+          {types.map((type) => (
+            <a
+              href="#"
+              key={type}
+              onClick={() => {
+                setSelectedType(type.toLowerCase());
+                setShowOnlySelectedCards(false);
+                setIsOpen(false);
+              }}
+            >
+              {type}
+            </a>
+          ))}
         </div>
       )}
     </div>

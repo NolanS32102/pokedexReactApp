@@ -1,4 +1,4 @@
-function FilterBar({ setFilterText }) {
+function SearchBar({ setFilterText }) {
   return (
     <div>
       <input
@@ -13,4 +13,4 @@ function FilterBar({ setFilterText }) {
   );
 }
 
-export default FilterBar;
+export default SearchBar;

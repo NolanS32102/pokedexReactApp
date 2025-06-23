@@ -1,5 +1,4 @@
 
-
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -69,85 +68,75 @@
 
 .dropdown:hover .dropbtn {background-color: #1f1f1f;}
 
+
+.sad-pika-container {
+  width: 100%;
+  height: 50vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.sadPikaImage {
+  width: 120px;
+  height: auto;
+  margin-top: 1rem;
+}
+
+
 /* Pokemon card styling */
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+}
 
 .pokemon-card {
   position: relative;
+  width: 200px;              
+  height: 300px;            
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  justify-content: flex-start;
+  padding: 1rem;
   margin: 1rem;
+  border: 2px solid #222;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  text-align: center;
+  font-family: sans-serif;
+  transition: transform 0.2s;
+}
+
+.stat-popup {
+  display: none;
+  list-style-type: none;
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.795);
+  padding: 10px;
   border: 1px solid black;
-  /* background-image: linear-gradient(rgb(255, 255, 255), rgb(224, 215, 215)); */
   border-radius: 8px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  width: 210px;
 }
 
-.stat-list {
-  list-style: none;    
-  padding: 0;
-  margin: 0 auto;       
-  text-align: center;  
+.pokemon-card:hover .stat-popup {
+  display: block;
 }
-
-.stat-list li {
-  margin: 4px 0;
-}
-
-
-/* .type-fire {
-  background-image: linear-gradient(red, yellow);
-}
-
-.type-water {
-  background-image: linear-gradient(rgb(88, 149, 255), white);
-}
-
-.type-poison{
-  background-image: linear-gradient(rgb(138, 67, 138), rgb(94, 119, 74));
-}
-
-.type-electric {
-  background-image: linear-gradient(rgb(255, 217, 0), rgb(244, 227, 156))
-}
-
-.type-grass {
-  background-image: linear-gradient(rgb(99, 181, 61), rgba(165, 136, 69, 0.749))
-}
-
-.type-bug {
-  background-image: linear-gradient(rgb(141, 237, 114), rgb(244, 227, 156))
-}
-
-.type-ground {
-  background-image: linear-gradient(rgb(177, 84, 84), rgb(244, 227, 156))
-}
-
-.type-fairy {
-  background-image: linear-gradient(rgb(240, 161, 234), rgb(212, 199, 130))
-}
-
-.type-psychic {
-  background-image: linear-gradient(rgb(115, 2, 115),white)
-}
-
-.type-fighting {
-  background-image: linear-gradient(orange, white)
-}
-
-.type-rock {
-  background-image: linear-gradient(rgb(133, 133, 133), rgb(196, 195, 192))
-}
-
-.type-dragon {
-  background-image: linear-gradient(rgb(238, 108, 130), rgb(167, 207, 242))
-}
-
-.type-dark {
-  background-image: linear-gradient(rgb(240, 161, 234), rgb(212, 199, 130))
-} */
 
 .collected-symbol {
   position: absolute;
@@ -161,8 +150,24 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
+.stat-list {
+  display: none; 
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.stat-list li {
+  margin: 4px 0;
+} 
+
 .pokemon-card:hover {
   transform: scale(1.05);
+}
+
+.pokemon-card:hover .stat-list {
+  display: block;
 }
 
 

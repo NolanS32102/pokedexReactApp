@@ -25,13 +25,13 @@ const typeToColor = (type) => {
   return colors[type] || "white";
 };
 
-function PokemonCard({ filterText, selectedType }) {
+function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
   const [pokemonArrayInfo, setPokemonArrayInfo] = useState([]);
-  const [collectedIds, setCollectedIds] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
 
   useEffect(() => {
     async function loadData() {
-      const names = await getPokemonList(225);
+      const names = await getPokemonList(500);
       const allInfo = [];
 
       for (const pokemon of names) {
@@ -45,6 +45,13 @@ function PokemonCard({ filterText, selectedType }) {
     loadData();
   }, []);
 
+  const toggleCollected = (id) => {
+    setSelectedIds(
+      (prev) =>
+        prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id] //FIXME
+    );
+  };
+
   const filteredList = pokemonArrayInfo.filter((pokemon) => {
     const matchesSearch = pokemon.name
       .toLowerCase()
@@ -52,15 +59,11 @@ function PokemonCard({ filterText, selectedType }) {
     const matchesType =
       !selectedType ||
       pokemon.types.some((tt) => tt.type.name.toLowerCase() === selectedType);
-    return matchesSearch && matchesType;
-  });
-
-  const toggleCollected = (id) => {
-    setCollectedIds(
-      (prev) =>
-        prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id] //FIXME
+    const isCollected = selectedIds.includes(pokemon.id);
+    return (
+      matchesSearch && matchesType && (!showOnlySelectedCards || isCollected)
     );
-  };
+  });
 
   return (
     <div className="card-container">
@@ -82,7 +85,7 @@ function PokemonCard({ filterText, selectedType }) {
                 toggleCollected(pokemon.id);
               }}
             >
-              <h2>{pokemon.name.toUpperCase()}</h2>
+              <h2>{pokemon.name.toLocaleUpperCase()}</h2>
               <img src={pokemon.sprites.front_default} alt={pokemon.name} />
               <p>
                 <b>TYPE</b>:{" "}
@@ -92,22 +95,33 @@ function PokemonCard({ filterText, selectedType }) {
                 <b>ABILITIES</b>:{" "}
                 {pokemon.abilities.map((aa) => aa.ability.name).join(", ")}
               </p>
-              <h3>STATS:</h3>
-              <ul className="stat-list">
-                {pokemon.stats.map((ss) => (
-                  <li key={ss.stat.name}>
-                    {ss.stat.name.toUpperCase()}: {ss.base_stat}
-                  </li>
-                ))}
-              </ul>
-              {collectedIds.includes(pokemon.id) && (
+              <div className="stat-popup">
+                <p>
+                  <b>STATS</b>
+                </p>
+                <ul className="stat-list">
+                  {pokemon.stats.map((ss) => (
+                    <li key={ss.stat.name}>
+                      {ss.stat.name.toUpperCase()}: {ss.base_stat}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {selectedIds.includes(pokemon.id) && (
                 <p className="collected-symbol">⭐️</p>
               )}
             </div>
           );
         })
       ) : (
-        <p>No Pokémon Found!</p>
+        <div className="sad-pika-container">
+          <p>No Pokémon Found!</p>
+          <img
+            className="sadPikaImage"
+            src="src/assets/sadPikachu.jpg"
+            alt="sad pikachu"
+          />
+        </div>
       )}
     </div>
   );
