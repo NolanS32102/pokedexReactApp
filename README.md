@@ -33,7 +33,7 @@ Welcome to your own custom Pokédex! This is a React-based application that allo
 ## 🛠 Tech Stack
 
 - React (with Hooks)
-- CSS Grid & Flexbox
+- CSS Flexbox
 - PokéAPI (https://pokeapi.co/)
 - Vite (or Create React App, depending on your setup)
 
