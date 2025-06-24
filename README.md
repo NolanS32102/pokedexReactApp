@@ -10,7 +10,6 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# pokemonApiFetcher
 # Pokédex React App
 
 Welcome to your own custom Pokédex! This is a React-based application that allows users to browse, filter, and star their favorite Pokémon using live data from the [PokéAPI](https://pokeapi.co/).
@@ -23,7 +22,7 @@ Welcome to your own custom Pokédex! This is a React-based application that allo
 
 - 🔍 **Search** Pokémon by name
 - 🔃 **Filter** by Pokémon type
-- ⭐️ **Mark** favorite Pokémon with a Poké Ball
+- ⭐️ **Mark** favorite Pokémon with a star
 - 📊 **View stats** in a popup on hover
 - 🎨 **Color-coded cards** based on Pokémon types
 - 🕹 Responsive grid layout, styled to resemble trading cards
