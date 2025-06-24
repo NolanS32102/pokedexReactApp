@@ -105,9 +105,14 @@
 }
 
 .sadPikaImage {
-  width: 20rem;
+  width: 15rem;
   height: auto;
   margin-top: 1rem;
+}
+
+.error-pikachu {
+  height: 12rem;
+  width: 12rem;
 }
 
 

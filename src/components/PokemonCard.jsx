@@ -30,6 +30,7 @@ const typeToColor = (type) => {
 function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
   const [pokemonArrayInfo, setPokemonArrayInfo] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function loadData() {
@@ -44,7 +45,9 @@ function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
       setPokemonArrayInfo(allInfo);
     }
 
-    loadData();
+    loadData().catch(() => {
+      setError("Failed to load pokémon!");
+    });
   }, []);
 
   const toggleCollected = (id) => {
@@ -67,6 +70,20 @@ function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
       matchesSearch && matchesType && (!showOnlySelectedCards || isCollected)
     );
   });
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <h2>Error:</h2>
+        <p>{error}</p>
+        <img
+          className="error-pikachu"
+          src="src/assets/errorPikachu.jpg"
+          alt="pikachu on phone"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="card-container">

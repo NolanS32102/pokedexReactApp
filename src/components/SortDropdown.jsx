@@ -65,7 +65,7 @@ function SortDropdown({
               href="#"
               key={type}
               onClick={() => {
-                setSelectedType(type.toLowerCase());
+                setSelectedType(type.toLocaleLowerCase());
                 setShowOnlySelectedCards(false);
                 setIsOpen(false);
               }}
