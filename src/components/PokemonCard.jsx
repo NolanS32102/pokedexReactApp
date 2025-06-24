@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { getPokemonList, getPokemonByNameOrId } from "../api/pokeApi";
 
+const allPokemon = 1302;
+
 const typeToColor = (type) => {
   const colors = {
     fire: "#EE8130",
@@ -31,7 +33,7 @@ function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
 
   useEffect(() => {
     async function loadData() {
-      const names = await getPokemonList(500);
+      const names = await getPokemonList(allPokemon);
       const allInfo = [];
 
       for (const pokemon of names) {
@@ -46,19 +48,20 @@ function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
   }, []);
 
   const toggleCollected = (id) => {
-    setSelectedIds(
-      (prev) =>
-        prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id] //FIXME
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
     );
   };
 
   const filteredList = pokemonArrayInfo.filter((pokemon) => {
     const matchesSearch = pokemon.name
-      .toLowerCase()
-      .includes(filterText.toLowerCase());
+      .toLocaleLowerCase()
+      .includes(filterText.toLocaleLowerCase());
     const matchesType =
       !selectedType ||
-      pokemon.types.some((tt) => tt.type.name.toLowerCase() === selectedType);
+      pokemon.types.some(
+        (tt) => tt.type.name.toLocaleLowerCase() === selectedType
+      );
     const isCollected = selectedIds.includes(pokemon.id);
     return (
       matchesSearch && matchesType && (!showOnlySelectedCards || isCollected)
@@ -115,7 +118,7 @@ function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
         })
       ) : (
         <div className="sad-pika-container">
-          <p>No Pokémon Found!</p>
+          <h2>No Pokémon Found!</h2>
           <img
             className="sadPikaImage"
             src="src/assets/sadPikachu.jpg"

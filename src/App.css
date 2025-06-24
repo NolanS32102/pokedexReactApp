@@ -1,11 +1,9 @@
-
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
-
 
 .card {
   padding: 2em;
@@ -68,6 +66,31 @@
 
 .dropdown:hover .dropbtn {background-color: #1f1f1f;}
 
+/* image styling */
+
+.title-images {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.title-images .pokemon-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-images .pokemon-title img {
+  height: 10rem;
+}
+
+.poke-ball {
+  width: 12rem;
+  height: 10rem;
+}
+
 
 .sad-pika-container {
   width: 100%;
@@ -82,7 +105,7 @@
 }
 
 .sadPikaImage {
-  width: 120px;
+  width: 20rem;
   height: auto;
   margin-top: 1rem;
 }

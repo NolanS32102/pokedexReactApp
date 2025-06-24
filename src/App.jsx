@@ -1,7 +1,3 @@
-//TODO cleanup code
-//TODO add documentation
-//TODO maybe add way to set how many pokemon being rendered
-
 import { useState } from "react";
 import "./App.css";
 import SearchBar from "./components/searchBar";
@@ -15,8 +11,20 @@ function App() {
 
   return (
     <main>
-      <div>
-        <h1>Pokémon List:</h1>
+      <div className="title-images">
+        <img
+          className="poke-ball left"
+          src="src/assets/pokeBall.webp"
+          alt="poke ball left"
+        />
+        <h1 className="pokemon-title">
+          <img src="src/assets/pokemonLogo.png" alt="pokemon logo" />
+        </h1>
+        <img
+          className="poke-ball right"
+          src="src/assets/pokeBall.webp"
+          alt="poke ball right"
+        />
       </div>
 
       <div>
