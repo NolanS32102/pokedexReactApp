@@ -14,7 +14,6 @@ If you are developing a production application, we recommend using TypeScript wi
 
 Welcome to your own custom Pokédex! This is a React-based application that allows users to browse, filter, and star their favorite Pokémon using live data from the [PokéAPI](https://pokeapi.co/).
 
-![App Screenshot](./src/assets/screenshot.png) <!-- Replace or remove if no screenshot available -->
 
 ---
 
