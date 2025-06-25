@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { getPokemonList, getPokemonByNameOrId } from "../api/pokeApi";
+import { FilterNameContext } from "../context/FilterNameProvider.jsx";
+import { FilterTypeContext } from "../context/FilterTypeProvider.jsx";
+import { ShowStarredCardsContext } from "../context/ShowStarredCardsProvider.jsx";
 
 const allPokemon = 1302;
 
@@ -27,7 +30,11 @@ const typeToColor = (type) => {
   return colors[type] || "white";
 };
 
-function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
+function PokemonCard() {
+  const { filterNameText } = useContext(FilterNameContext);
+  const { filterTypeText } = useContext(FilterTypeContext);
+  const { showStarredCards } = useContext(ShowStarredCardsContext);
+
   const [pokemonArrayInfo, setPokemonArrayInfo] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [error, setError] = useState("");
@@ -35,14 +42,17 @@ function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
   useEffect(() => {
     async function loadData() {
       const names = await getPokemonList(allPokemon);
-      const allInfo = [];
 
-      for (const pokemon of names) {
-        const info = await getPokemonByNameOrId(pokemon.name);
-        allInfo.push(info);
-      }
-
-      setPokemonArrayInfo(allInfo);
+      names.reduce((promise, { name }) => {
+        return promise.then(() => {
+          return getPokemonByNameOrId(name).then((newPokemon) => {
+            return setPokemonArrayInfo((prevPokemonArray) => [
+              ...prevPokemonArray,
+              newPokemon,
+            ]);
+          });
+        });
+      }, Promise.resolve());
     }
 
     loadData().catch(() => {
@@ -50,26 +60,38 @@ function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
     });
   }, []);
 
-  const toggleCollected = (id) => {
+  const toggleCollected = useCallback((id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id],
     );
-  };
+  }, []);
 
-  const filteredList = pokemonArrayInfo.filter((pokemon) => {
-    const matchesSearch = pokemon.name
-      .toLocaleLowerCase()
-      .includes(filterText.toLocaleLowerCase());
-    const matchesType =
-      !selectedType ||
-      pokemon.types.some(
-        (tt) => tt.type.name.toLocaleLowerCase() === selectedType
-      );
-    const isCollected = selectedIds.includes(pokemon.id);
-    return (
-      matchesSearch && matchesType && (!showOnlySelectedCards || isCollected)
-    );
-  });
+  const filteredList = useMemo(
+    () =>
+      pokemonArrayInfo.filter((pokemon) => {
+        const matchesSearch = pokemon.name
+          .toLocaleLowerCase()
+          .includes(filterNameText.toLocaleLowerCase());
+
+        const matchesType =
+          !filterTypeText ||
+          pokemon.types.some(
+            (tt) => tt.type.name.toLocaleLowerCase() === filterTypeText,
+          );
+
+        const isCollected =
+          !showStarredCards || selectedIds.includes(pokemon.id);
+
+        return matchesSearch && matchesType && isCollected;
+      }),
+    [
+      pokemonArrayInfo,
+      filterNameText,
+      filterTypeText,
+      showStarredCards,
+      selectedIds,
+    ],
+  );
 
   if (error) {
     return (
@@ -85,64 +107,67 @@ function PokemonCard({ filterText, selectedType, showOnlySelectedCards }) {
     );
   }
 
-  return (
-    <div className="card-container">
-      {filteredList.length > 0 ? (
-        filteredList.map((pokemon) => {
-          const isDualType = pokemon.types.length > 1;
-          const backgroundStyle = isDualType
-            ? {
-                backgroundImage: `linear-gradient(${pokemon.types.map((t) => typeToColor(t.type.name)).join(", ")})`,
-              }
-            : { backgroundColor: typeToColor(pokemon.types[0].type.name) };
-
-          return (
-            <div
-              className={`pokemon-card ${pokemon.types.map((tt) => `type-${tt.type.name}`).join(" ")}`}
-              key={pokemon.id}
-              style={backgroundStyle}
-              onClick={() => {
-                toggleCollected(pokemon.id);
-              }}
-            >
-              <h2>{pokemon.name.toLocaleUpperCase()}</h2>
-              <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-              <p>
-                <b>TYPE</b>:{" "}
-                {pokemon.types.map((tt) => tt.type.name).join(", ")}
-              </p>
-              <p>
-                <b>ABILITIES</b>:{" "}
-                {pokemon.abilities.map((aa) => aa.ability.name).join(", ")}
-              </p>
-              <div className="stat-popup">
-                <p>
-                  <b>STATS</b>
-                </p>
-                <ul className="stat-list">
-                  {pokemon.stats.map((ss) => (
-                    <li key={ss.stat.name}>
-                      {ss.stat.name.toUpperCase()}: {ss.base_stat}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {selectedIds.includes(pokemon.id) && (
-                <p className="collected-symbol">⭐️</p>
-              )}
-            </div>
-          );
-        })
-      ) : (
+  if (Array.isArray(filteredList) && filteredList.length === 0) {
+    return (
+      <div className="card-container">
         <div className="sad-pika-container">
           <h2>No Pokémon Found!</h2>
           <img
             className="sadPikaImage"
-            src="src/assets/sadPikachu.jpg"
+            src="/src/assets/sadPikachu.jpg"
             alt="sad pikachu"
           />
         </div>
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="card-container">
+      {filteredList.map((pokemon) => {
+        const isDualType = pokemon.types.length > 1;
+        const backgroundStyle = isDualType
+          ? {
+              backgroundImage: `linear-gradient(${pokemon.types.map((t) => typeToColor(t.type.name)).join(", ")})`,
+            }
+          : { backgroundColor: typeToColor(pokemon.types[0].type.name) };
+
+        return (
+          <div
+            className={`pokemon-card ${pokemon.types.map((tt) => `type-${tt.type.name}`).join(" ")}`}
+            key={pokemon.id}
+            style={backgroundStyle}
+            onClick={() => {
+              toggleCollected(pokemon.id);
+            }}
+          >
+            <h2>{pokemon.name.toLocaleUpperCase()}</h2>
+            <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+            <p>
+              <b>TYPE</b>: {pokemon.types.map((tt) => tt.type.name).join(", ")}
+            </p>
+            <p>
+              <b>ABILITIES</b>:{" "}
+              {pokemon.abilities.map((aa) => aa.ability.name).join(", ")}
+            </p>
+            <div className="stat-popup">
+              <p>
+                <b>STATS</b>
+              </p>
+              <ul className="stat-list">
+                {pokemon.stats.map((ss) => (
+                  <li key={ss.stat.name}>
+                    {ss.stat.name.toUpperCase()}: {ss.base_stat}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {selectedIds.includes(pokemon.id) && (
+              <p className="collected-symbol">⭐️</p>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

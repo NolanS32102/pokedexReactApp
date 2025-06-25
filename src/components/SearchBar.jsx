@@ -1,4 +1,8 @@
-function SearchBar({ setFilterText }) {
+import { useContext } from "react";
+import { FilterNameContext } from "../context/FilterNameProvider.jsx";
+
+function SearchBar() {
+  const { setFilterNameText } = useContext(FilterNameContext);
   return (
     <div>
       <input
@@ -6,7 +10,7 @@ function SearchBar({ setFilterText }) {
         type="text"
         placeholder="Search pokémon"
         onChange={(event) => {
-          setFilterText(event.target.value);
+          setFilterNameText(event.target.value);
         }}
       />
     </div>

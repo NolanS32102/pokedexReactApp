@@ -1,14 +1,11 @@
-import { useState } from "react";
 import "./App.css";
 import SearchBar from "./components/searchBar";
 import PokemonCard from "./components/pokemonCard";
 import SortDropdown from "./components/SortDropdown";
-
+import { FilterNameProvider } from "./context/FilterNameProvider.jsx";
+import { FilterTypeProvider } from "./context/FilterTypeProvider.jsx";
+import { ShowStarredCardsProvider } from "./context/ShowStarredCardsProvider.jsx";
 function App() {
-  const [filterText, setFilterText] = useState("");
-  const [selectedType, setSelectedType] = useState("");
-  const [showOnlySelectedCards, setShowOnlySelectedCards] = useState(false);
-
   return (
     <main>
       <div className="title-images">
@@ -26,24 +23,20 @@ function App() {
           alt="poke ball right"
         />
       </div>
+      <FilterTypeProvider>
+        <FilterNameProvider>
+          <ShowStarredCardsProvider>
+            <div>
+              <SearchBar />
+              <SortDropdown />
+            </div>
 
-      <div>
-        <SearchBar filterText={filterText} setFilterText={setFilterText} />
-        <SortDropdown
-          selectedType={selectedType}
-          setSelectedType={setSelectedType}
-          showOnlySelectedCards={showOnlySelectedCards}
-          setShowOnlySelectedCards={setShowOnlySelectedCards}
-        />
-      </div>
-
-      <div>
-        <PokemonCard
-          filterText={filterText}
-          selectedType={selectedType}
-          showOnlySelectedCards={showOnlySelectedCards}
-        />
-      </div>
+            <div>
+              <PokemonCard />
+            </div>
+          </ShowStarredCardsProvider>
+        </FilterNameProvider>
+      </FilterTypeProvider>
     </main>
   );
 }

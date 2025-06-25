@@ -1,50 +1,38 @@
-import { useState } from "react";
+import { useContext, useMemo, useState } from "react";
+import { FilterTypeContext } from "../context/FilterTypeProvider.jsx";
+import { ShowStarredCardsContext } from "../context/ShowStarredCardsProvider.jsx";
 
-function SortDropdown({
-  selectedType,
-  setSelectedType,
-  showOnlySelectedCards,
-  setShowOnlySelectedCards,
-}) {
-  const types = [
-    "Fighting",
-    "Poison",
-    "Psychic",
-    "Dragon",
-    "Ghost",
-    "Dark",
-    "Ground",
-    "Fire",
-    "Fairy",
-    "Water",
-    "Normal",
-    "Rock",
-    "Electric",
-    "Bug",
-    "Grass",
-    "Ice",
-    "Steel",
-  ];
-
+function SortDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const { filterTypeText, setFilterTypeText, allTypes } =
+    useContext(FilterTypeContext);
+
+  const { setShowStarredCards, showStarredCards } = useContext(
+    ShowStarredCardsContext,
+  );
+
+  const selectedFilter = useMemo(() => {
+    if (showStarredCards) {
+      return "starred";
+    }
+    if (!filterTypeText) {
+      return "none";
+    }
+    return filterTypeText;
+  }, [showStarredCards, filterTypeText]);
 
   return (
     <div className="dropdown">
       <button className="dropbtn" onClick={() => setIsOpen(!isOpen)}>
-        Filter:{" "}
-        {showOnlySelectedCards
-          ? "starred"
-          : selectedType
-            ? selectedType
-            : "none"}
+        Filter:&nbsp;{selectedFilter}
       </button>
       {isOpen && (
         <div className="dropdown-content">
           <a
             href="#"
             onClick={() => {
-              setSelectedType("");
-              setShowOnlySelectedCards(false);
+              setFilterTypeText("");
+              setShowStarredCards(false);
               setIsOpen(false);
             }}
           >
@@ -53,20 +41,20 @@ function SortDropdown({
           <a
             href="#"
             onClick={() => {
-              setSelectedType("");
-              setShowOnlySelectedCards(true);
+              setFilterTypeText("");
+              setShowStarredCards(true);
               setIsOpen(false);
             }}
           >
             Starred ⭐️
           </a>
-          {types.map((type) => (
+          {allTypes.map((type) => (
             <a
               href="#"
               key={type}
               onClick={() => {
-                setSelectedType(type.toLocaleLowerCase());
-                setShowOnlySelectedCards(false);
+                setFilterTypeText(type.toLocaleLowerCase());
+                setShowStarredCards(false);
                 setIsOpen(false);
               }}
             >
