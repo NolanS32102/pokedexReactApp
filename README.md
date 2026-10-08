@@ -17,20 +17,20 @@ Welcome to your own custom Pokédex! This is a React-based application that allo
 
 ---
 
-## 🚀 Features
+## Features
 
-- 🔍 **Search** Pokémon by name
-- 🔃 **Filter** by Pokémon type
-- ⭐️ **Mark** favorite Pokémon with a star
-- 📊 **View stats** in a popup on hover
-- 🎨 **Color-coded cards** based on Pokémon types
-- 🕹 Responsive grid layout, styled to resemble trading cards
-- ⚠️ Error handling for API requests
-- 🥲 "Sad Pikachu" image when no results are found
+- **Search** Pokémon by name
+- **Filter** by Pokémon type
+- **Mark** favorite Pokémon with a star
+- **View stats** in a popup on hover
+- **Color-coded cards** based on Pokémon types
+- Responsive grid layout, styled to resemble trading cards
+- Error handling for API requests
+- "Sad Pikachu" image when no results are found
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - React (with Hooks)
 - CSS Flexbox
@@ -39,7 +39,7 @@ Welcome to your own custom Pokédex! This is a React-based application that allo
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 # Clone the repository
